@@ -117,26 +117,23 @@ export default function Home() {
     setHistory((prev) => prev.filter((_, index) => index !== indexToDelete));
   };
 
-  // --- NEW: The Download Function ---
   const handleDownload = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // Stops the modal from closing when you click the button
+    e.stopPropagation();
     if (!selectedImage) return;
 
     try {
-      // Fetches the image data and creates a local link to download it
       const response = await fetch(selectedImage);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `oy-pie-art-${Date.now()}.webp`; // Gives it a cool custom filename
+      link.download = `oy-pie-art-${Date.now()}.webp`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Download failed:", error);
-      // Fallback: If it fails, open in a new tab
       window.open(selectedImage, "_blank");
     }
   };
@@ -193,13 +190,11 @@ export default function Home() {
       {/* --- MAIN CONTENT AREA --- */}
       <div className="relative flex-1 h-full min-w-0 flex flex-col items-center justify-between overflow-hidden">
         
-        {/* Background Layer */}
         <div 
           className="absolute inset-0 bg-cover bg-[center_85%] bg-no-repeat pointer-events-none"
           style={{ backgroundImage: "url('/assets/background-pattern.png')" }}
         />
 
-        {/* Top Header */}
         <div className="flex w-full justify-between items-center p-4 z-50">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -209,7 +204,6 @@ export default function Home() {
               <span className="text-xl font-bold tracking-widest">OY-PIE</span>
             </button>
 
-            {/* FUNCTIONAL LANGUAGE DROPDOWN */}
             <div className="relative">
               <button 
                 onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
@@ -250,7 +244,6 @@ export default function Home() {
             </div>
         </div>
 
-        {/* --- THE TAMDYR MAGIC WRAPPER --- */}
         <div className="relative flex-1 w-full pointer-events-none z-10">
             <div className={`absolute left-[50%] flex flex-col items-center -translate-x-1/2 transition-all duration-[2500ms] ease-in-out
                   ${bakeState === "idle" ? "opacity-0 bottom-[-10%] scale-50" : ""}
@@ -280,41 +273,41 @@ export default function Home() {
             </div>
         </div>
 
-       {/* --- BOTTOM INPUT AREA --- */}
-<div className="relative w-full max-w-4xl px-4 mb-8 z-50">
-  <div 
-    className="flex items-center gap-2 bg-[#1e0a05]/85 backdrop-blur-xl border border-[#d4af37]/30 rounded-[2.5rem] p-2 px-3 sm:px-5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all focus-within:border-[#d4af37]/70"
-    // Use standard CSS for direction instead of the HTML 'dir' attribute
-    style={{ direction: language === "AR" ? "rtl" : "ltr" }} 
-  >
-    <input
-  key={language} // <--- ADD THIS
-  type="text"
-  defaultValue={prompt} // <--- CHANGE value TO defaultValue
-  onChange={(e) => setPrompt(e.target.value)}
-  onKeyDown={(e) => {
-    if (e.key === 'Enter' && bakeState !== "baking") {
-      generateImage();
-    }
-  }}
-  placeholder={t.placeholder}
-  disabled={bakeState === "baking"}
-  autoFocus // <--- ADD THIS
-  className={`flex-1 min-w-0 bg-transparent text-white text-base sm:text-lg placeholder-gray-400 outline-none py-3 disabled:opacity-50 ${language === "AR" ? "text-right" : "text-left"}`}
-/>
-    <button 
-      onClick={generateImage}
-      disabled={bakeState === "baking"}
-      className="rounded-full bg-[#8a1c1c] px-5 sm:px-8 py-3 font-bold text-[#d4af37] transition-all hover:bg-[#a02020] hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] disabled:opacity-50 whitespace-nowrap shrink-0"
-    >
-      {bakeState === "baking" ? "..." : t.generate}
-    </button>
-  </div>
-  
-  <p className="text-center text-xs text-white/40 mt-3 font-light tracking-wide">
-     {t.disclaimer}
-  </p>
-</div>
+        <div className="relative w-full max-w-4xl px-4 mb-8 z-50">
+          <div 
+            className="flex items-center gap-2 bg-[#1e0a05]/95 backdrop-blur-xl border border-[#d4af37]/30 rounded-[2.5rem] p-2 px-3 sm:px-5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all focus-within:border-[#d4af37]/70"
+            style={{ direction: language === "AR" ? "rtl" : "ltr" }} 
+          >
+            <input
+              key={language} 
+              type="text"
+              value={prompt} 
+              onChange={(e) => setPrompt(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && bakeState !== "baking") {
+                  generateImage();
+                }
+              }}
+              placeholder={t.placeholder}
+              disabled={bakeState === "baking"}
+              autoFocus 
+              className={`flex-1 min-w-0 bg-transparent text-white text-base sm:text-lg placeholder-gray-400 outline-none py-3 disabled:opacity-50 ${language === "AR" ? "text-right" : "text-left"}`}
+            />
+            <button 
+              onClick={generateImage}
+              disabled={bakeState === "baking"}
+              className="rounded-full bg-[#8a1c1c] px-5 sm:px-8 py-3 font-bold text-[#d4af37] transition-all hover:bg-[#a02020] hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] disabled:opacity-50 whitespace-nowrap shrink-0"
+            >
+              {bakeState === "baking" ? "..." : t.generate}
+            </button>
+          </div>
+          
+          <p className="text-center text-xs text-white/40 mt-3 font-light tracking-wide">
+             {t.disclaimer}
+          </p>
+        </div>
+
+      </div> {/* <--- THIS IS THE CLOSING TAG YOU WERE MISSING */}
 
       {/* --- FULL SCREEN IMAGE MODAL --- */}
       {selectedImage && (
@@ -323,11 +316,7 @@ export default function Home() {
           onClick={() => setSelectedImage(null)}
         >
           <div className="relative max-w-6xl w-full h-full flex items-center justify-center">
-            
-            {/* The Top Action Buttons Container */}
             <div className="absolute top-0 right-0 sm:top-4 sm:right-4 flex gap-3 z-50">
-              
-              {/* NEW: Download Button */}
               <button 
                 onClick={handleDownload}
                 title="Download Image"
@@ -337,8 +326,6 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                 </svg>
               </button>
-
-              {/* Close Button */}
               <button 
                 className="text-white/50 hover:text-[#d4af37] bg-white/5 hover:bg-white/10 border border-white/10 rounded-full w-12 h-12 flex items-center justify-center text-xl transition-all shadow-lg"
                 onClick={(e) => {
@@ -348,10 +335,7 @@ export default function Home() {
               >
                 ✕
               </button>
-
             </div>
-            
-            {/* The Huge Image */}
             <img 
               src={selectedImage} 
               alt="Full size baked art" 
