@@ -280,36 +280,40 @@ export default function Home() {
             </div>
         </div>
 
-        {/* --- BOTTOM INPUT AREA --- */}
-        <div className="relative w-full max-w-4xl px-4 mb-8 z-30">
-          <div 
-            dir={language === "AR" ? "rtl" : "ltr"}
-            className="flex items-center gap-2 bg-[#1e0a05]/85 backdrop-blur-xl border border-[#d4af37]/30 rounded-[2.5rem] p-2 px-3 sm:px-5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all focus-within:border-[#d4af37]/70"
-          >
-            <input
-              type="text"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && bakeState !== "baking" && generateImage()}
-              placeholder={t.placeholder}
-              disabled={bakeState === "baking"}
-              className="flex-1 min-w-0 bg-transparent text-white text-base sm:text-lg placeholder-gray-400 outline-none py-3 disabled:opacity-50"
-            />
-            <button 
-              onClick={generateImage}
-              disabled={bakeState === "baking"}
-              className="rounded-full bg-[#8a1c1c] px-5 sm:px-8 py-3 font-bold text-[#d4af37] transition-all hover:bg-[#a02020] hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] disabled:opacity-50 whitespace-nowrap shrink-0"
-            >
-              {bakeState === "baking" ? "..." : t.generate}
-            </button>
-          </div>
-          
-          <p className="text-center text-xs text-white/40 mt-3 font-light tracking-wide">
-             {t.disclaimer}
-          </p>
-        </div>
-
-      </div>
+       {/* --- BOTTOM INPUT AREA --- */}
+<div className="relative w-full max-w-4xl px-4 mb-8 z-30">
+  <div 
+    className="flex items-center gap-2 bg-[#1e0a05]/85 backdrop-blur-xl border border-[#d4af37]/30 rounded-[2.5rem] p-2 px-3 sm:px-5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all focus-within:border-[#d4af37]/70"
+    // Use standard CSS for direction instead of the HTML 'dir' attribute
+    style={{ direction: language === "AR" ? "rtl" : "ltr" }} 
+  >
+    <input
+      type="text"
+      value={prompt}
+      onChange={(e) => setPrompt(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && bakeState !== "baking") {
+          generateImage();
+        }
+      }}
+      placeholder={t.placeholder}
+      disabled={bakeState === "baking"}
+      // Adding 'text-left' for non-Arabic ensures RU and TM characters align correctly
+      className={`flex-1 min-w-0 bg-transparent text-white text-base sm:text-lg placeholder-gray-400 outline-none py-3 disabled:opacity-50 ${language !== "AR" ? "text-left" : "text-right"}`}
+    />
+    <button 
+      onClick={generateImage}
+      disabled={bakeState === "baking"}
+      className="rounded-full bg-[#8a1c1c] px-5 sm:px-8 py-3 font-bold text-[#d4af37] transition-all hover:bg-[#a02020] hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] disabled:opacity-50 whitespace-nowrap shrink-0"
+    >
+      {bakeState === "baking" ? "..." : t.generate}
+    </button>
+  </div>
+  
+  <p className="text-center text-xs text-white/40 mt-3 font-light tracking-wide">
+     {t.disclaimer}
+  </p>
+</div>
 
       {/* --- FULL SCREEN IMAGE MODAL --- */}
       {selectedImage && (
