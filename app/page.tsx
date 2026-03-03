@@ -191,7 +191,7 @@ export default function Home() {
       </div>
 
       {/* --- MAIN CONTENT AREA --- */}
-      <div className="relative flex-1 h-full w-full flex flex-col items-center justify-between">
+      <div className="relative flex-1 h-full min-w-0 flex flex-col items-center justify-between overflow-hidden">
         
         {/* Background Layer */}
         <div 
@@ -281,7 +281,7 @@ export default function Home() {
         </div>
 
        {/* --- BOTTOM INPUT AREA --- */}
-<div className="relative w-full max-w-4xl px-4 mb-8 z-30">
+<div className="relative w-full max-w-4xl px-4 mb-8 z-50">
   <div 
     className="flex items-center gap-2 bg-[#1e0a05]/85 backdrop-blur-xl border border-[#d4af37]/30 rounded-[2.5rem] p-2 px-3 sm:px-5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all focus-within:border-[#d4af37]/70"
     // Use standard CSS for direction instead of the HTML 'dir' attribute
