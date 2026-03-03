@@ -288,19 +288,20 @@ export default function Home() {
     style={{ direction: language === "AR" ? "rtl" : "ltr" }} 
   >
     <input
-      type="text"
-      value={prompt}
-      onChange={(e) => setPrompt(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' && bakeState !== "baking") {
-          generateImage();
-        }
-      }}
-      placeholder={t.placeholder}
-      disabled={bakeState === "baking"}
-      // Adding 'text-left' for non-Arabic ensures RU and TM characters align correctly
-      className={`flex-1 min-w-0 bg-transparent text-white text-base sm:text-lg placeholder-gray-400 outline-none py-3 disabled:opacity-50 ${language !== "AR" ? "text-left" : "text-right"}`}
-    />
+  key={language} // <--- ADD THIS
+  type="text"
+  defaultValue={prompt} // <--- CHANGE value TO defaultValue
+  onChange={(e) => setPrompt(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' && bakeState !== "baking") {
+      generateImage();
+    }
+  }}
+  placeholder={t.placeholder}
+  disabled={bakeState === "baking"}
+  autoFocus // <--- ADD THIS
+  className={`flex-1 min-w-0 bg-transparent text-white text-base sm:text-lg placeholder-gray-400 outline-none py-3 disabled:opacity-50 ${language === "AR" ? "text-right" : "text-left"}`}
+/>
     <button 
       onClick={generateImage}
       disabled={bakeState === "baking"}
