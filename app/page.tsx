@@ -51,7 +51,7 @@ export default function Home() {
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | undefined>(undefined);
   const [bakeState, setBakeState] = useState<"idle" | "baking" | "ready">("idle");
   
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
 
   const [language, setLanguage] = useState<LanguageCode>("EN");
